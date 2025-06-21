@@ -5,7 +5,6 @@ import { Librarian } from "./_types/librarian";
 
 import "next-auth";
 
-// --- NEXTAUTH TYPE EXTENSIONS ---
 declare module "next-auth" {
   interface User extends Librarian {
     id: string;
@@ -37,7 +36,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       async authorize(credentials) {
-        console.log("[authorize] Called with:", credentials);
 
         if (
           typeof credentials?.email !== "string" ||
@@ -53,7 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (!user) {
-          console.warn("[authorize] loginLibrarian failed");
           return null;
         }
 
@@ -70,7 +67,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.accessToken = user.token;
         token.user = user;
-        console.log("[jwt callback] Set token.user & accessToken");
       }
       return token;
     },
@@ -79,7 +75,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.user && typeof token.user === "object" && "id" in token.user && "email" in token.user) {
         session.user = token.user as any;
       } else {
-        // Provide a fallback or throw an error if user is missing
         throw new Error("[session callback] token.user is missing or invalid");
       }
       session.accessToken = typeof token.accessToken === "string" ? token.accessToken : undefined;

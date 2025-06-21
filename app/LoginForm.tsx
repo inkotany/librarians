@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Text } from "@radix-ui/themes";
-import { LockKeyholeOpen, Mail } from "lucide-react";
+import { LockKeyholeOpen, Mail, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 import login from "./login";
 import Spinner from "./_components/Spinner";
+import { useState } from "react";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -29,6 +30,8 @@ const LoginForm = () => {
   } = useForm<LibrarianCredentials>({
     resolver: zodResolver(loginSchema),
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data: LibrarianCredentials) => {
     const response = await login(data);
@@ -73,10 +76,19 @@ const LoginForm = () => {
         />
         <input
           {...register("password")}
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Password"
-          className="w-full py-3 pl-12 pr-5 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition duration-300 dark:bg-gray-800 dark:border-gray-600"
+          className="w-full py-3 pl-12 pr-12 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary transition duration-300 dark:bg-gray-800 dark:border-gray-600"
         />
+        <button
+          type="button"
+          tabIndex={-1}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
+          onClick={() => setShowPassword((prev) => !prev)}
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </button>
       </div>
       <FormError error={errors.password?.message} />
 
