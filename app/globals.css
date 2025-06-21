@@ -15,12 +15,18 @@
 
 /* Dark mode */
 .dark {
-  --background: #0a0a0a; 
+  --background: #0a0a0a;
   --foreground: #f5f5f5;
 }
 
+@layer {
+  button {
+    @apply cursor-pointer disabled:bg-gray-800 disabled:cursor-not-allowed;
+  }
+}
+
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }

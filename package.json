@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,14 +13,19 @@
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/themes": "^3.2.1",
     "@react-email/components": "^0.1.0",
+    "axios": "^1.10.0",
     "i": "^0.3.7",
     "lucide-react": "^0.518.0",
     "next": "15.3.4",
+    "next-auth": "^5.0.0-beta.28",
     "next-themes": "^0.4.6",
     "npm": "^11.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
+    "react-spinners": "^0.17.0",
+    "recharts": "^2.15.4",
+    "resend": "^4.6.0",
     "zod": "^3.25.67"
   },
   "devDependencies": {

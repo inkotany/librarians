@@ -10,7 +10,16 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const TopBooksBarChart = ({ data }) => {
+interface TopBookData {
+  bookTitle: string;
+  borrowedCount: number;
+}
+
+interface TopBooksBarChartProps {
+  data: TopBookData[];
+}
+
+const TopBooksBarChart: React.FC<TopBooksBarChartProps> = ({ data }) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
       <h3 className="text-xl font-normal text-gray-800 dark:text-white mb-4">

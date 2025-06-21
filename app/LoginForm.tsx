@@ -1,12 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Spinner, Text } from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import { LockKeyholeOpen, Mail } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormError from "./_components/FormError";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
+import login from "./login";
+import Spinner from "./_components/Spinner";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -26,26 +30,26 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  // const onSubmit = async (data) => {
-  //   const response = await login(data);
-  //   if (response.success) {
-  //     toast.success(
-  //       typeof response.message === "string"
-  //         ? response.message
-  //         : "Login successful"
-  //     );
-  //     redirector(data.userType);
-  //   } else {
-  //     toast.error(
-  //       typeof response?.message === "string"
-  //         ? response.message
-  //         : "Invalid email or password"
-  //     );
-  //   }
-  // };
+  const onSubmit = async (data: LibrarianCredentials) => {
+    const response = await login(data);
+    if (response.success) {
+      toast.success(
+        typeof response.message === "string"
+          ? response.message
+          : "Login successful"
+      );
+      redirect("/schools/dashboard");
+    } else {
+      toast.error(
+        typeof response?.message === "string"
+          ? response.message
+          : "Invalid email or password"
+      );
+    }
+  };
 
   return (
-    <form  className="grid gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
       {/* Email Field */}
       <div className="relative">
         <Mail
@@ -96,10 +100,10 @@ const LoginForm = () => {
       <button
         type="submit"
         disabled={isSubmitting || !isValid}
-        className="w-full mt-4 py-3 rounded-lg flex justify-center items-center gap-4 bg-primary text-white font-semibold hover:bg-primary-dark transition duration-300 dark:bg-primary-dark"
+        className="w-full mt-4 py-3 rounded-lg flex justify-center items-center gap-4 bg-primary text-xl text-white font-semibold hover:bg-primary-dark transition duration-300 dark:bg-primary-dark"
       >
-        {isSubmitting ? "Please wait" : "Login"}
-        {isSubmitting && <Spinner size="2" />}
+        {!isSubmitting && "Login"}
+        {isSubmitting && <Spinner />}
       </button>
     </form>
   );

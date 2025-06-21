@@ -1,7 +1,7 @@
 "use client";
 
+import { useAddBookModal } from "@/app/stores/useAddBookModal";
 import { PlusCircle } from "lucide-react";
-import { useAddBookModal } from "../../../../stores/useAddBookModal";
 
 const AddBookButton = () => {
     const { open } = useAddBookModal();
