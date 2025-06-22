@@ -4,6 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchAcquisitions } from './actions';
 // import NitSkeleton from '@/app/_components/Skeleton';
 
+interface Acquisition {
+  bookTitle: string;
+  code: string;
+  quantity: number;
+  supplier: string;
+}
+
 const SkeletonRow = () => (
   <tr>
     {[...Array(4)].map((_, i) => (
@@ -44,7 +51,7 @@ const AcquisitionsTable = () => {
               </tr>
             )}
 
-            {data?.map((acquisition, index) => (
+            {data?.map((acquisition: Acquisition, index: number) => (
               <tr key={index} className="table-r hover:text-white hover:bg-primary transition-colors">
                 <td className="table-data">{acquisition.bookTitle}</td>
                 <td className="table-data">{acquisition.code}</td>
