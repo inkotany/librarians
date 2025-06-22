@@ -2,13 +2,13 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { fetchAcquisitions } from './actions';
-import NitSkeleton from '@/app/_components/Skeleton';
+// import NitSkeleton from '@/app/_components/Skeleton';
 
 const SkeletonRow = () => (
   <tr>
     {[...Array(4)].map((_, i) => (
       <td key={i} className="p-4">
-        <NitSkeleton height="1rem" width="100%" />
+        {/* <NitSkeleton height="1rem" width="100%" /> */}
       </td>
     ))}
   </tr>

@@ -4,7 +4,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 import axios from "axios";
 import { AddBook } from "./AddBookModal";
-import { auth } from "../../../auth";
+import { auth } from "@/app/auth";
+
 
 export default async function addBook(data: AddBook) {
   try {
