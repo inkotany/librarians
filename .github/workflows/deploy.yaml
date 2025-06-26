@@ -28,7 +28,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.HOST_USERNAME }}@${{ secrets.HOST_SERVER_IP }} << 'EOF'
             set -e  # stop on error
             echo "🔄 Pulling latest code..."
-            cd /root/app/
+            cd /root/librarians/
 
             git fetch origin
             git reset --hard origin/production
