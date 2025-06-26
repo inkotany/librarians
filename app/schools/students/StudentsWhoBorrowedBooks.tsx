@@ -2,6 +2,17 @@
 import { Spinner } from "@radix-ui/themes";
 import { useStudentsWhoBorrowedBooksQuery } from "./hooks";
 
+export interface BorrowedBookItem {
+  studentName: string;
+  studentCode: string;
+  studentClass: string;
+  bookTitle: string;
+  bookCode: string;
+  author: string;
+  publisher: string;
+  dueDate: string;
+}
+
 const StudentsBorrowedBooksTable = () => {
   const { data: borrowedBooks, isLoading, isError } = useStudentsWhoBorrowedBooksQuery();
   if (isLoading) return <Spinner />;
@@ -22,7 +33,7 @@ const StudentsBorrowedBooksTable = () => {
           </tr>
         </thead>
         <tbody>
-          {borrowedBooks.map((item, index) => (
+          {borrowedBooks.map((item: BorrowedBookItem, index: number) => (
             <tr key={index} className="table-r dark:hover:bg-gray-700 transition-colors">
               <td className="table-data">{item.studentName}</td>
               <td className="table-data">{item.studentCode}</td>

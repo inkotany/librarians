@@ -3,10 +3,21 @@
 import { Spinner } from "@radix-ui/themes";
 import { useStudentsWhoLostBooksQuery } from "./hooks";
 
+export interface LostBookItem {
+    names: string;
+    studentCode: string;
+    studentClass: string;
+    bookTitle: string;
+    bookCode: string;
+    author: string;
+    publisher: string;
+    timeSinceLost: string;
+}
+
 const StudentsLostBooksTable = () => {
-     const { data: lostBooks, isLoading, error } = useStudentsWhoLostBooksQuery();
-      if (isLoading) return <Spinner />;
-      if (error) return <p>Error occured</p>;
+    const { data: lostBooks, isLoading, error } = useStudentsWhoLostBooksQuery();
+    if (isLoading) return <Spinner />;
+    if (error) return <p>Error occured</p>;
     return (
         <div className="overflow-x-auto rounded-xl">
             <table className="w-full border-collapse text-sm rounded-lg border-gray-300 dark:border-gray-700">
@@ -23,7 +34,7 @@ const StudentsLostBooksTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {lostBooks.map((item, index) => (
+                    {lostBooks.map((item: LostBookItem, index: number) => (
                         <tr key={index} className="table-r dark:hover:bg-gray-700 transition-colors">
                             <td className="table-data">{item.names}</td>
                             <td className="table-data">{item.studentCode}</td>

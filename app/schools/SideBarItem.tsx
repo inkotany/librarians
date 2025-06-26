@@ -3,7 +3,13 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
 
-export default function SidebarItem({ href, icon, label }) {
+interface SidebarItemProps {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+}
+
+export default function SidebarItem({ href, icon, label }: SidebarItemProps) {
   const path = usePathname();
   const isActive = path === href;
 

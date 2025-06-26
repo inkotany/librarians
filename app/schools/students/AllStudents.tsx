@@ -3,6 +3,17 @@
 import { useStudentsQuery } from "./hooks";
 import { Spinner } from "@radix-ui/themes";
 
+export interface Student {
+  firstName: string;
+  lastName: string;
+  parentPhone: string;
+  studentCard: string;
+  code: string;
+  className: string;
+  email: string;
+  status: string;
+}
+
 const AllStudents = () => {
   const { data, isLoading, error } = useStudentsQuery();
   if (isLoading) return <Spinner />;
@@ -36,7 +47,7 @@ const AllStudents = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((student, index) => (
+          {data.map((student: Student, index: number) => (
             <tr
               key={index}
               className="table-r dark:hover:bg-gray-700 transition-colors"

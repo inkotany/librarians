@@ -1,4 +1,5 @@
-import { auth } from "../../auth";
+
+import { auth } from "../auth";
 import AvatarDropdown from "./_components/AvatarDropdown";
 
 import "next-auth";
@@ -10,7 +11,7 @@ declare module "next-auth" {
     token?: string;
   }
   interface Session {
-    user?: User & { token?: string };
+    user?: User;
   }
 }
 const getGreeting = () => {

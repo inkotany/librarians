@@ -12,11 +12,12 @@ export default async function returnBook(data: ReturnBook) {
       message: res.data,
     };
   } catch (ex) {
-    if (ex.response) {
+    if (typeof ex === "object" && ex !== null && "response" in ex) {
+      const err = ex as { response: { data: any } };
       const errorMsg =
-        typeof ex.response.data === "string"
-          ? ex.response.data
-          : ex.response.data.message || "Something went wrong";
+        typeof err.response.data === "string"
+          ? err.response.data
+          : err.response.data.message || "Something went wrong";
 
       return {
         success: false,
@@ -26,7 +27,9 @@ export default async function returnBook(data: ReturnBook) {
 
     return {
       success: false,
-      message: ex.message || "Something failed",
+      message: typeof ex === "object" && ex !== null && "message" in ex
+        ? (ex as { message?: string }).message || "Something failed"
+        : "Something failed",
     };
   }
 }

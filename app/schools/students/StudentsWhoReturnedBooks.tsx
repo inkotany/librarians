@@ -3,10 +3,21 @@
 import { Spinner } from "@radix-ui/themes";
 import { useStudentsWhoReturnedBooksQuery } from "./hooks";
 
+export interface ReturnedBookItem {
+  studentName: string;
+  studentClass: string;
+  studentCode: string;
+  bookTitle: string;
+  bookCode: string;
+  author: string;
+  publisher: string;
+  returnDate: string;
+}
+
 const StudentsReturnedBooksTable = () => {
   const { data: returnedBooks, isLoading, error } = useStudentsWhoReturnedBooksQuery();
-        if (isLoading) return <Spinner />;
-        if (error) return <p>Error occured</p>;
+  if (isLoading) return <Spinner />;
+  if (error) return <p>Error occured</p>;
   return (
     <div className="overflow-x-auto rounded-xl">
       <table className="w-full border-collapse text-sm rounded-lg border-gray-300 dark:border-gray-700">
@@ -23,7 +34,7 @@ const StudentsReturnedBooksTable = () => {
           </tr>
         </thead>
         <tbody>
-          {returnedBooks.map((item, index) => (
+          {returnedBooks.map((item: ReturnedBookItem, index: number) => (
             <tr key={index} className="table-r dark:hover:bg-gray-700 transition-colors">
               <td className="table-data">{item.studentName}</td>
               <td className="table-data">{item.studentClass}</td>
@@ -33,7 +44,7 @@ const StudentsReturnedBooksTable = () => {
               <td className="table-data">{item.author}</td>
               <td className="table-data">{item.publisher}</td>
               <td className="table-data">{item.returnDate}</td>
- 
+
             </tr>
           ))}
         </tbody>

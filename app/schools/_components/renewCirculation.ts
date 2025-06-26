@@ -12,7 +12,7 @@ export async function renewCirculation(data: RenewCirculation) {
       success: true,
       message: res.data,
     };
-  } catch (ex) {
+  } catch (ex: any) {
     const errorMsg =
       ex?.response?.data?.message ||
       ex?.response?.data ||

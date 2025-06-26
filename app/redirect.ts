@@ -10,6 +10,6 @@ export const redirector = (userType: string) => {
     } else if (userType === 'System Admin') {
         redirect('/d/gg');
     } else {
-        redirect('/login?redirectFailed=1');
+        redirect('/?redirectFailed=1');
     }
 }

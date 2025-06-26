@@ -91,7 +91,7 @@ const IssueBookModal = () => {
                 />
                 {errors[name] && (
                   <span className="text-red-500 text-xs">
-                    {(errors as unknown)[name]?.message}
+                    {(errors as Record<string, { message?: string }>)[name]?.message}
                   </span>
                 )}
               </fieldset>

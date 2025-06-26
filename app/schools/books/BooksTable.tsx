@@ -4,8 +4,17 @@ import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@radix-ui/themes";
 import { fetchBooks } from "./actions";
 
+type Book = {
+  title: string;
+  author: string;
+  publisher: string;
+  dateAquired: string;
+  totalCopies: number;
+  availableCopies: number;
+};
+
 const BooksTable = () => {
-  const { data: books, isLoading, isError, error } = useQuery({
+  const { data: books, isLoading, isError, error } = useQuery<Book[]>({
     queryKey: ["books"],
     queryFn: fetchBooks,
     staleTime: 1000 * 60 * 5,

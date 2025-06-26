@@ -1,4 +1,5 @@
 "use client";
+
 import NitSkeleton from "@/app/_components/Skeleton";
 import dynamic from "next/dynamic";
 
@@ -18,7 +19,12 @@ const TopBooksBarChart = dynamic(
   }
 );
 
-const Analytics = ({ topBooksData, borrowingTrendsData }) => {
+type AnalyticsProps = {
+  topBooksData: any; 
+  borrowingTrendsData: any;
+};
+
+const Analytics = ({ topBooksData, borrowingTrendsData }: AnalyticsProps) => {
   return (
     <>
       <h2 className="library-subtitle mt-6">Analytics</h2>

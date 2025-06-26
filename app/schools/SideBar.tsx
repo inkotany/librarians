@@ -12,7 +12,11 @@ import { auth } from "@/app/auth";
 import { getApiClient } from "./axios";
 
 export default async function Sidebar() {
-  const { user } = await auth();
+  const session = await auth();
+  if (!session || !session.user) {
+    return null;
+  }
+  const user = session.user;
   const api = await getApiClient();
 
   // Type assertion to include institutionId
@@ -23,7 +27,7 @@ export default async function Sidebar() {
   const shortName = getShortForm(name);
 
   return (
-    <div className="w-64 max-md:hidden min-h-screen bg-white library-dark-bg shadow-lg p-5 flex flex-col overflow-auto">
+    <div className="w-64 max-md:hidden min-h-screen bg-gray-800 shadow-lg p-5 flex flex-col overflow-auto">
       <h2 className="text-2xl font-semibold flex flex-col items-baseline gap-1 text-gray-800 dark:text-white mb-6">
         {shortName}{" "}
         <span className="dark:text-white text-black font-light text-sm">
@@ -32,32 +36,32 @@ export default async function Sidebar() {
       </h2>
       <nav className="space-y-4">
         <SidebarItem
-          href="/g/schools/dashboard"
+          href="/schools/dashboard"
           icon={<LayoutDashboard className="stroke-1" size={20} />}
           label="Dashboard"
         />
         <SidebarItem
-          href="/g/schools/books"
+          href="/schools/books"
           icon={<Book className="stroke-1" size={20} />}
           label="Books"
         />
         <SidebarItem
-          href="/g/schools/circulations"
+          href="/schools/circulations"
           icon={<RefreshCcw className="stroke-1" size={20} />}
           label="Circulations"
         />
         <SidebarItem
-          href="/g/schools/students"
-          icon={<GraduationCap className="stroke-1" size={20} />} // Changed to GraduationCap icon
+          href="/schools/students"
+          icon={<GraduationCap className="stroke-1" size={20} />} 
           label="Students"
         />
         <SidebarItem
-          href="/g/schools/members"
+          href="/schools/members"
           icon={<Users className="stroke-1" size={20} />}
           label="Members"
         />
         <SidebarItem
-          href="/g/schools/acquisitions"
+          href="/schools/acquisitions"
           icon={<PlusCircle className="stroke-1" size={20} />}
           label="Acquisitions"
         />

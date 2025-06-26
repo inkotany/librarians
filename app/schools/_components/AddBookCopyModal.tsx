@@ -65,7 +65,7 @@ const AddBookCopyModal = () => {
 
   const onSubmit = async (data: AddBookCopy) => {
     const selectedBookTitle = query;
-    const cleanedData = cleanFormData(data);
+    const cleanedData = cleanFormData(data) as AddBookCopy;
     const response = await addBookCopy(cleanedData);
 
     if (response.success) {

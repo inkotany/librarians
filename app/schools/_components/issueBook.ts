@@ -13,11 +13,11 @@ export default async function issueBook(data: IssueBook) {
       message: res.data,
     };
   } catch (ex) {
-    if (ex.response) {
+    if (typeof ex === "object" && ex !== null && "response" in ex) {
       const errorMsg =
-        typeof ex.response.data === "string"
-          ? ex.response.data
-          : ex.response.data.message || "Something went wrong";
+        typeof (ex as any).response.data === "string"
+          ? (ex as any).response.data
+          : (ex as any).response.data.message || "Something went wrong";
 
       return {
         success: false,
@@ -27,7 +27,9 @@ export default async function issueBook(data: IssueBook) {
 
     return {
       success: false,
-      message: ex.message || "Something failed",
+      message: typeof ex === "object" && ex !== null && "message" in ex
+        ? (ex as { message?: string }).message || "Something failed"
+        : "Something failed",
     };
   }
 }

@@ -23,7 +23,6 @@ declare module "next-auth" {
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log("[auth.ts] API_URL:", API_URL);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
@@ -78,7 +77,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         throw new Error("[session callback] token.user is missing or invalid");
       }
       session.accessToken = typeof token.accessToken === "string" ? token.accessToken : undefined;
-      console.log("[session callback] Set session user & accessToken");
       return session;
     },
   },
@@ -102,7 +100,6 @@ async function loginLibrarian({
   email: string;
   password: string;
 }): Promise<(Librarian & { token: string }) | null> {
-  console.log("[loginLibrarian] Called with:", email);
 
   try {
     const response = await axios.post(

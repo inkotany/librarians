@@ -13,11 +13,13 @@ export async function acquireBooks(data: AddAquistion) {
       message: res.data,
     };
   } catch (ex) {
+    const err = ex as { response?: { data?: { message?: string } | string }, message?: string };
     const errorMsg =
-      ex?.response?.data?.message ||
-      ex?.response?.data ||
-      ex?.message ||
-      "Something went wrong";
+      err?.response?.data && typeof err.response.data === "object" && "message" in err.response.data
+        ? (err.response.data as any).message
+        : err?.response?.data ||
+          err?.message ||
+          "Something went wrong";
 
     return {
       success: false,

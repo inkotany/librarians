@@ -80,7 +80,18 @@ const AquireBookModal = () => {
   const onSubmit = async (data: AddAquistion) => {
     const selectedBookTitle = query;
     const cleanedData = cleanFormData(data);
-    const response = await acquireBooks(cleanedData);
+
+    if (
+      !cleanedData.bookId ||
+      !cleanedData.quantity ||
+      !cleanedData.supplier ||
+      !cleanedData.dateOfAcquisition
+    ) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    const response = await acquireBooks(cleanedData as AddAquistion);
 
     if (response.success) {
       toast.success(response.message);

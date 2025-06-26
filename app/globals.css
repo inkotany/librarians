@@ -149,3 +149,25 @@
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 }
+
+@layer base {
+  button {
+    @apply disabled:bg-gray-800 cursor-pointer;
+  }
+
+  .library-bg {
+    @apply bg-gray-800;
+  }
+
+  .library-dark-bg {
+    @apply dark:bg-gray-800;
+  }
+
+  .library-title {
+    @apply text-3xl font-semibold text-gray-900 dark:text-white;
+  }
+
+  .library-subtitle {
+    @apply text-2xl font-semibold text-gray-900 dark:text-white;
+  }
+}

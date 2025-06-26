@@ -106,7 +106,7 @@ const AddBookModal = () => {
                 />
                 {errors[name] && (
                   <span className="text-red-500 text-xs">
-                    {(errors as unknown)[name]?.message}
+                    {(errors as import("react-hook-form").FieldErrors<AddBook>)[name]?.message as string}
                   </span>
                 )}
               </fieldset>

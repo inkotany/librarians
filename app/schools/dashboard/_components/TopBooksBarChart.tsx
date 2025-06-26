@@ -10,9 +10,20 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface TopBookData {
+// Types for analytics API response
+export interface TopBookData {
   bookTitle: string;
   borrowedCount: number;
+}
+
+export interface BorrowingTrendData {
+  month: string;
+  borrowedBooks: number;
+}
+
+export interface AnalyticsResponse {
+  topBooksData: TopBookData[];
+  borrowingTrendsData: BorrowingTrendData[];
 }
 
 interface TopBooksBarChartProps {
@@ -28,7 +39,7 @@ const TopBooksBarChart: React.FC<TopBooksBarChartProps> = ({ data }) => {
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="bookTitle "/>
+          <XAxis dataKey="bookTitle " />
           <YAxis />
           <Tooltip />
           <Legend />

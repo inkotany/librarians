@@ -4,7 +4,6 @@ import CirculationsTable from "./CirculationTable";
 import { useCirculationsQuery } from "./hooks"
 
 const CirculationsPage = () => {
-    console.log('Render from Circulation Page');
     const { data, isLoading, error } = useCirculationsQuery();
 
     if (isLoading) return <Spinner />;

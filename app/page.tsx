@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import LoginForm from "./LoginForm";
 import { APP_NAME } from "./constants";
 import { auth } from "./auth";
-import { signOut } from "next-auth/react";
 
 export const metadata = {
   title: `Login | ${APP_NAME}`,
@@ -10,10 +9,10 @@ export const metadata = {
 };
 
 export default async function Login() {
-  // const session = await auth();
-  // if (session) {
-  //   redirect("/schools/dashboard");
-  // }  
+  const session = await auth();
+  if (session) {
+    redirect("/schools/dashboard");
+  }
 
   return (
     <div className="flex justify-center flex-col items-center min-h-screen bg-gray-100 dark:bg-gray-800">

@@ -10,7 +10,16 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const BorrowingTrendsLineChart = ({ data }) => {
+interface BorrowingTrendData {
+  month: string;
+  borrowedBooks: number;
+}
+
+interface BorrowingTrendsLineChartProps {
+  data: BorrowingTrendData[];
+}
+
+const BorrowingTrendsLineChart: React.FC<BorrowingTrendsLineChartProps> = ({ data }) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
       <h3 className="text-xl font-normal text-gray-800 dark:text-white mb-4">

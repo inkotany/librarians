@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Sidebar from "./SideBar";
 import React from "react";
 import Greetings from "./Greetings";
-import { auth } from "../../auth";
+
 import { redirect } from "next/navigation";
 import AddBookModal from "./_components/AddBookModal";
 import AddStudentModal from "./_components/AddStudentModal";
@@ -12,6 +12,7 @@ import ReturnBookModal from "./_components/ReturnBookModal";
 import { ThemeProvider } from "next-themes";
 import RenewCirculationModal from "./_components/RenewCirculationModal";
 import AquireBookModal from "./_components/AquireBookModal";
+import { auth } from "../auth";
 
 const SchoolsDashboardLayout = async ({
   children,
@@ -24,7 +25,7 @@ const SchoolsDashboardLayout = async ({
     (session.user &&
       (session.user as { userType?: string }).userType !== "Librarian")
   )
-    redirect("/login");
+    redirect("/");
   return (
     <ThemeProvider attribute={"class"} enableSystem defaultTheme="dark">
       <div className="flex gap-4 h-screen bg-gray-100 dark:bg-gray-900">

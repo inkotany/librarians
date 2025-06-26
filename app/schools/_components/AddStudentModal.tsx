@@ -8,8 +8,8 @@ import { Dialog } from "radix-ui";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { useAddStudentModal } from "../../../stores/useAddStudentModal";
 import { addStudent } from "./addStudent";
+import { useAddStudentModal } from "@/app/stores/useAddStudentModal";
 
 const studentSchema = z.object({
   firstName: z
@@ -110,7 +110,7 @@ const AddStudentModal = () => {
                 />
                 {errors[name] && (
                   <span className="text-red-500 text-xs">
-                    {(errors as unknown)[name]?.message}
+                    {(errors[name] as { message?: string })?.message}
                   </span>
                 )}
               </fieldset>

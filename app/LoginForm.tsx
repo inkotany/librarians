@@ -18,6 +18,8 @@ const loginSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
+const forgotPasswordURL = process.env.NEXT_PUBLIC_FORGOT_PASSWORD_URL;
+
 export type LibrarianCredentials = z.infer<typeof loginSchema>;
 
 // ✅ Form Component
@@ -103,7 +105,7 @@ const LoginForm = () => {
             Sign up
           </Link>
         </Text>
-        <Link className="text-primary underline" href="/login/forgot">
+        <Link className="text-primary underline" href={`${forgotPasswordURL}`}>
           Forgot password?
         </Link>
       </div>
