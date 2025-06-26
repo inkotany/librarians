@@ -7,6 +7,8 @@ import { signOut, useSession } from "next-auth/react";
 import UserAvatar from "./UserAvatar";
 import { useRouter } from "next/navigation";
 
+const baseURL = process.env.NEXT_PUBLIC_SITE_URL;
+
 const AvatarDropdown = () => {
   const { data } = useSession();
   const router = useRouter();
@@ -45,7 +47,7 @@ const AvatarDropdown = () => {
             className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-red-600 dark:text-red-500 transition-colors hover:bg-red-500 cursor-pointer hover:text-white dark:hover:bg-red-600/30"
             onClick={() => {
               signOut({redirectTo: "/"});
-              router.push("/");
+              router.push(baseURL +  "/");
             }}
           >
             <LogOut size={18} /> Logout
