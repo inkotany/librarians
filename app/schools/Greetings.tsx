@@ -1,4 +1,4 @@
-
+import { Librarian } from "../_types/librarian";
 import { auth } from "../auth";
 import AvatarDropdown from "./_components/AvatarDropdown";
 
@@ -11,7 +11,7 @@ declare module "next-auth" {
     token?: string;
   }
   interface Session {
-    user?: User;
+    user?: User & { token?: string };
   }
 }
 const getGreeting = () => {

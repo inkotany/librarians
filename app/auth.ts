@@ -1,57 +1,68 @@
 import NextAuth from "next-auth";
+import { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import axios from "axios";
 import { Librarian } from "./_types/librarian";
+import http from "http";
+import https from "https";
+import "next-auth";
+import axios from "axios";
+declare module "next-auth" {
+  interface User {
+    token?: string;
+  }
+  interface Session {
+    user?: User & { token?: string };
+  }
+}
+// Extend the Session type to include accessToken
 
 declare module "next-auth" {
-  interface User extends Librarian {
-    id: string;
-    token?: string;
-  }
-
   interface Session {
-    user?: User;
-    accessToken: string;
-  }
-
-  interface JWT {
-    id: string;
-    email: string;
-    name: string;
-    role: string;
-    accessToken: string;
-    token?: string;
+    accessToken?: string;
   }
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+export enum UserType {
+  Librarian = "Librarian",
+  Member = "Member",
+  Institution = "Institution",
+  SystemAdmin = "System Admin",
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
-
   providers: [
     Credentials({
-      name: "Librarian Login",
+      name: "Login",
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
 
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
-        const user = await loginLibrarian(
+        let user: Librarian | null;
+        user = await loginLibrarian(
           credentials.email as string,
           credentials.password as string
         );
-        if (!user) return null;
 
-        return {
+        if (!user || !user.librarianId || (!user.firstName && !user.lastName)) {
+          return null;
+        }
+
+        const resultUser = {
           id: user.librarianId,
           name: `${user.firstName} ${user.lastName}`,
           role: user.role,
           ...user,
         };
+        return resultUser;
       },
     }),
   ],
@@ -59,35 +70,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
-        token.role = user.role;
-        token.accessToken = user.token!;
+        token.accessToken = user.token;
+        token.user = user;
       }
       return token;
     },
 
     async session({ session, token }) {
-      session.user = {
-        id: String(token.id),
-        email: String(token.email),
-        name: String(token.name),
-        role: token.role as import("./_types/librarian").Role,
-        token: String(token.accessToken),
-        // Add required properties with default or token values if available
-        emailVerified: null,
-        librarianId: (token as any).librarianId ?? String(token.id),
-        status: (token as any).status ?? "ACTIVE",
-        gender: (token as any).gender ?? "",
-        phone: (token as any).phone ?? "",
-        address: (token as any).address ?? "",
-        firstName: (token as any).firstName ?? "",
-        lastName: (token as any).lastName ?? "",
-        createdAt: (token as any).createdAt ?? "",
-        updatedAt: (token as any).updatedAt ?? "",
-      };
-      session.accessToken = String(token.accessToken);
+      session.user = token.user as typeof session.user;
+      session.accessToken =
+        typeof token.accessToken === "string" ? token.accessToken : "";
       return session;
     },
   },
@@ -96,21 +88,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
     maxAge: 60 * 60 * 24,
   },
-
   jwt: {
     maxAge: 60 * 60 * 24,
-  },
-
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      }
-    }
   },
 
   secret: process.env.NEXTAUTH_SECRET,
@@ -124,14 +103,18 @@ async function loginLibrarian(
     const response = await axios.post(
       `${API_URL}/auth/librarians`,
       { email, password },
-      { validateStatus: () => true }
+      {
+        validateStatus: () => true,
+        transitional: { clarifyTimeoutError: true },
+        httpAgent: new http.Agent({ family: 4 }),
+        httpsAgent: new https.Agent({ family: 4 }),
+      }
     );
 
     const token = response.headers["x-auth-token"];
     const data = response.data;
 
     if (response.status !== 200 || !token) {
-      console.warn("[loginLibrarian] Login failed:", data);
       return null;
     }
 
@@ -146,13 +129,11 @@ async function loginLibrarian(
       !normalized.email ||
       normalized.status !== "ACTIVE"
     ) {
-      console.warn("[loginLibrarian] Invalid user:", normalized);
       return null;
     }
 
     return normalized;
   } catch (error) {
-    console.error("[loginLibrarian] Error:", error);
     return null;
   }
 }

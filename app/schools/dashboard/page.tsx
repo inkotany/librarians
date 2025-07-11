@@ -1,14 +1,15 @@
 import ActionButtons from "./ActionButtons";
 import Analytics from "./Analytics";
 import Overview from "./Overview";
+import { auth } from "@/app/auth";
 import { getApiClient } from "../axios";
 import { APP_NAME } from "@/app/constants";
-import { auth } from "@/app/auth";
 
 export async function generateMetadata() {
   const session = await auth();
   const api = await getApiClient();
-  const institutionId = (session?.user as { institutionId?: string })?.institutionId;
+  const institutionId = (session?.user as { institutionId?: string })
+    ?.institutionId;
   const res = await api.get(`/institutions/${institutionId}`);
   const { name } = res.data;
 
