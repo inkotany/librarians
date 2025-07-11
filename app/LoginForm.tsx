@@ -100,7 +100,7 @@ const LoginForm = () => {
           Don&apos;t have an account?{" "}
           <Link
             className="text-primary underline"
-            href="/signup"
+            href="https://gaggleniti.com/signup"
           >
             Sign up
           </Link>
